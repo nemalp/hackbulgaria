@@ -17,7 +17,6 @@ def print_output():
 
         if len(dict_) == 1 and power == 0:
             derivatives.insert(0, str(d))
-            pass
 
         if power != 0:
             polynoms.insert(0, str(p))
@@ -26,7 +25,6 @@ def print_output():
 
         else:
             polynoms.append(str(p))
-    print(dict_)
 
     print("The derivative of f(x) = {} is:".format(' + '.join(polynoms)))
     print("f'(x) = {}".format(' + '.join(derivatives)))
