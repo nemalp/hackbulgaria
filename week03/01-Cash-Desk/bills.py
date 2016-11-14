@@ -11,7 +11,7 @@ desk.take_money(batch)
 desk.take_money(Bill(10))
 
 print(desk.total())  # 390
-print(desk.inspect())
+# print(desk.inspect())
 
 # We have a total of 390$ in the desk
 # We have the following count of bills, sorted in ascending order:

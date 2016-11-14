@@ -1,3 +1,6 @@
+import itertools
+
+
 def count_substrings(haystack, needle):
     output = haystack.count(needle)
 
@@ -21,16 +24,42 @@ def nan_expand(times):
 print(nan_expand(3))
 
 
+def prime_factors(n):
+    i = 2
+    factors = []
+    while i * i <= n:
+        if n % i:
+            i += 1
+        else:
+            n //= i
+            factors.append(i)
+    if n > 1:
+        factors.append(n)
+    return factors
+
+
+def prime_factorization(n):
+    pr_factors = prime_factors(n)
+    dict_ = {x: pr_factors.count(x) for x in pr_factors}
+
+    return sorted(list(dict_.items()))
+
+
+print(prime_factorization(89))
+
+
 def group(input):
     import re
 
     string_input = ''.join(str(x) for x in input)
     pattern = re.compile(r'(.)\1*')
-    groups = [list(match.group()) for match in pattern.finditer(string_input)]
+    groups = [list(map(int, list(match.group())))
+              for match in pattern.finditer(string_input)]
+
 
     return groups
 
-print(group([1, 2, 1, 2, 3, 3]))
+print(group([1, 1, 1, 2, 3, 1, 1]))
 
 
 def max_consecutive(items):
@@ -55,27 +84,33 @@ print(max_consecutive([1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 5]))
 
 
 def word_counter(matrix):
-    import numpy as np
 
-    word = list('ivan')
+    word = 'ivan'
     count = 0
 
-    for row in matrix:
-        if row == word or row == word[::-1]:
+    rows = 5
+    cols = 4
+
+    diags = [[matrix[i-j][j] for j in range(i + 1) if (i - j) < rows and j < cols]
+             for i in list(range(rows + cols - 1))]
+
+    for d in diags:
+        d = ''.join(d)
+        if word in d or word in d[::-1]:
             count += 1
 
-    transposed_matrix = np.transpose(matrix)
-
-    for row in transposed_matrix:
-        print(row == row)
-        # if row == word or row == word[::-1]:
-        #    count += 1
-        pass
-
-    print(transposed_matrix)
-
     for row in matrix:
-        pass
+        row = ''.join(row)
+        if word in row or word in row[::-1]:
+            count += 1
+
+    cols = [list(x) for x in zip(*matrix)]
+
+    for col in cols:
+        col = ''.join(col)
+        if word in col or word in col[::-1]:
+            count += 1
+
 
 word_counter(
             [['i', 'v', 'a', 'n'],

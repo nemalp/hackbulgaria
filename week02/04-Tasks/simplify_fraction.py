@@ -1,5 +1,7 @@
+import math
+
+
 def simplify_fraction(fraction):
-    import math
     gcd_ = math.gcd(fraction[0], fraction[1])
 
     return fraction[0] // gcd_, fraction[1] // gcd_

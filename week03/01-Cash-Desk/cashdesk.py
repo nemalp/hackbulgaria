@@ -96,6 +96,8 @@ class CashDesk:
         output.append('We have a total of {0}$ in the desk'
                       .format(self.total()))
         output.append('We have the following count of bills, sorted in ascending order:')
+        
+        print(self.money.keys())
 
         for bill in self.money.keys():
             output.append('{0}$ bills - {1}'

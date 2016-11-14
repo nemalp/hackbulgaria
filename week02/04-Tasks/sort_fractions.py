@@ -1,5 +1,7 @@
 def sort_fractions(fractions):
-    return sorted(fractions)
+    fractions = sorted([(i[0] / i[1], i) for i in fractions])
+
+    return [i[1] for i in fractions]
 
 
 def main():
