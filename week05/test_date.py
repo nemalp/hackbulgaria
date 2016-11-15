@@ -6,9 +6,13 @@ class TestDate(unittest.TestCase):
 
     def setUp(self):
         self.date = Date(29, 11, 2016, hour='12:20')
+        self.date1 = Date(29, 11, 2016, hour='12:20')
 
     def test_date_init(self):
         self.assertTrue(isinstance(self.date, Date))
+
+    def test_date_eq(self):
+        self.assertEqual(self.date, self.date1)
 
     def test_date_get_hour(self):
         self.assertEqual(self.date.get_hours(), 12)

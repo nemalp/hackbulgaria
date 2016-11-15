@@ -1,13 +1,18 @@
 class Airport:
 
-    def __init__(self, flight, terminal):
-        self.flights = []
+    def __init__(self, flights):
+        self.flights = [flight for flight in flights if not flight.declined]
 
     def get_flights_for(self, date):
-        pass
+        flights_for = [flight for flight in self.flights
+                       if flight.start_time == date]
+        return len(flights_for)
 
-    def get_flight_before(self, hour):
-        pass
+    def get_flight_before(self, date):
+        # TODO implement __lt__ in Date
+        flights_before = [flight for flight in self.flights
+                          if flight.start_time < date]
+        return flights_before
 
     def get_flight_from(self, date, destination):
         pass
