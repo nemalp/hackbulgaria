@@ -27,16 +27,21 @@ class TestFlight(unittest.TestCase):
         self.assertFalse(self.flight.is_declined())
 
     def test_get_start_time(self):
-        self.assertEqual(self.flight.get_start_time(), Date(29, 11, 2016, hour='12:20'))
+        self.assertEqual(self.flight.get_start_time(),
+                         Date(29, 11, 2016, hour='12:20'))
 
     def test_get_end_time(self):
-        self.assertEqual(self.flight.get_end_time(), Date(29, 11, 2016, hour='15:30'))
+        self.assertEqual(self.flight.get_end_time(),
+                         Date(29, 11, 2016, hour='15:30'))
 
     def test_get_from_destination(self):
         self.assertEqual(self.flight.get_from_destination(), 'Sofia')
 
     def test_get_to_destination(self):
         self.assertEqual(self.flight.get_to_destination(), 'London')
+
+    def test_get_terminal_number(self):
+        self.assertEqual(self.flight.get_terminal_number(), 2)
 
 if __name__ == '__main__':
     unittest.main()

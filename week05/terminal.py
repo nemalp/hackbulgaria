@@ -7,3 +7,5 @@ class Terminal:
     def get_terminal_flights(self):
         return self.max_flights
 
+    def get_terminal_number(self):
+        return self.number

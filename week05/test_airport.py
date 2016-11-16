@@ -29,7 +29,7 @@ class TestAirport(unittest.TestCase):
                               end_time=Date(29, 11, 2015, hour='15:30'),
                               passengers=100, max_passengers=120,
                               from_dest="London", to_dest="Chicago",
-                              terminal=Terminal(1, 20),
+                              terminal=Terminal(2, 20),
                               declined=False)
 
         self.passenger = Passenger(first_name="Rositsa",
@@ -53,14 +53,28 @@ class TestAirport(unittest.TestCase):
         self.assertEqual(self.airport.get_flights_for(self.date), 1)
 
     def test_get_flight_before(self):
-        self.assertEqual(self.airport.get_flight_before(self.date), [self.flight, self.flight2])
+        self.assertEqual(self.airport.get_flight_before(self.date),
+                         [self.flight, self.flight2])
 
     def test_get_flight_from(self):
-        self.assertEqual(self.airport.get_flight_from(self.flight2.get_from_destination()), [self.flight2])
-
+        self.assertEqual(self.airport.get_flight_from(
+            self.flight2.get_from_destination()), [self.flight2])
 
     def test_get_flight_to(self):
-        self.assertEqual(self.airport.get_flight_to(self.flight2.get_to_destination()), [self.flight2])
+        self.assertEqual(self.airport.get_flight_to(
+            self.flight2.get_to_destination()), [self.flight2])
+
+    def test_get_terminal_flights(self):
+        self.assertEqual(self.airport.get_terminal_flights(2),
+                         [self.flight, self.flight2])
+
+    def test_get_terminal_flights_on(self):
+        self.assertEqual(self.airport.get_terminal_flights_on(self.date, 2),
+                         [self.flight])
+
+    def test_get_terminal_flights_to_dest(self):
+        self.assertEqual(self.airport.terminal_flights_to_dest('London', 2),
+                         [self.flight])
 
 if __name__ == '__main__':
     unittest.main()

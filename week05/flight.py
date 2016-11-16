@@ -30,6 +30,9 @@ class Flight:
     def get_to_destination(self):
         return self.to_dest
 
+    def get_terminal_number(self):
+        return self.terminal.number
+
     def flight_duration(self):
         start_hours = self.start_time.get_hours()
         start_minutes = self.start_time.get_minutes()
