@@ -1,3 +1,8 @@
+from date import Date
+from flight import Flight
+from terminal import Terminal
+
+
 class Airport:
 
     def __init__(self, flights):
@@ -5,25 +10,25 @@ class Airport:
 
     def get_flights_for(self, date):
         flights_for = [flight for flight in self.flights
-                       if flight.start_time == date]
+                       if flight.get_start_time() == date]
         return len(flights_for)
 
     def get_flight_before(self, date):
-        # TODO implement __lt__ in Date
         flights_before = [flight for flight in self.flights
-                          if flight.start_time < date]
+                          if flight.get_start_time() < date]
+
         return flights_before
 
-    def get_flight_from(self, date, destination):
-        pass
+    def get_flight_from(self, destination):
+        return [f for f in self.flights if f.get_from_destination() == destination]
+
+    def get_flight_to(self, destination):
+        return [f for f in self.flights if f.get_to_destination() == destination]
 
     def get_terminal_flights_on(self, date):
         pass
 
     def flight_before(self, date, hour):
-        pass
-
-    def get_flight_to(self, date, destination):
         pass
 
     def terminal_flights_to_dest(self, destination):

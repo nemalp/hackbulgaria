@@ -18,6 +18,18 @@ class Flight:
     def is_declined(self):
         return self.declined
 
+    def get_start_time(self):
+        return self.start_time
+
+    def get_end_time(self):
+        return self.end_time
+
+    def get_from_destination(self):
+        return self.from_dest
+
+    def get_to_destination(self):
+        return self.to_dest
+
     def flight_duration(self):
         start_hours = self.start_time.get_hours()
         start_minutes = self.start_time.get_minutes()
