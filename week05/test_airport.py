@@ -36,7 +36,12 @@ class TestAirport(unittest.TestCase):
                                    last_name="Zlateva",
                                    flight=self.flight, age=22)
 
+        self.passenger1 = Passenger(first_name="John",
+                                   last_name="Doe",
+                                   flight=self.flight, age=12)
+
         self.date = Date(29, 11, 2016, '12:20')
+        self.date0 = Date(29, 11, 2016, '15:20')
         self.date1 = Date(19, 10, 2017, '12:20')
         self.date2 = Date(11, 10, 2015, '11:20')
 
@@ -75,6 +80,38 @@ class TestAirport(unittest.TestCase):
     def test_get_terminal_flights_to_dest(self):
         self.assertEqual(self.airport.terminal_flights_to_dest('London', 2),
                          [self.flight])
+
+    def test_flights_on_date_lt_hours(self):
+        self.assertEqual(self.airport.flights_on_date_lt_hours(self.date0), [self.flight])
+
+    def test_passengers_to_dest(self):
+        self.flight.add_passengers(self.passenger)
+        self.assertEqual(self.airport.passengers_to_dest('London'), [self.passenger])
+
+    def test_passengers_reservations(self):
+        self.flight.add_reservations(self.reservation)
+        self.assertEqual(self.airport.passengers_reservations(self.flight), [self.reservation])
+
+    def test_flights_with_passengers(self):
+        self.flight.add_passengers(self.passenger)
+        self.flight.add_passengers(self.passenger1)
+        self.assertEqual(self.airport.flights_with_passengers(1), [self.flight])
+
+    def test_reservations_to_destination(self):
+        self.flight.add_reservations(self.reservation)
+        self.assertEqual(self.airport.reservations_to_destination('London'), [self.reservation])
+        self.assertEqual(self.airport.reservations_to_destination('Bangalore'), [])
+
+    def test_passengers_from_terminal(self):
+        self.flight.add_passengers(self.passenger)
+        self.flight.add_passengers(self.passenger1)
+        self.assertEqual(self.airport.passengers_from_terminal(2), [self.passenger, self.passenger1])
+
+    def test_pasengers_under_18(self):
+        self.flight.add_passengers(self.passenger)
+        self.flight.add_passengers(self.passenger1)
+        self.assertEqual(self.airport.passengers_under_18(self.flight), [self.passenger1])
+
 
 if __name__ == '__main__':
     unittest.main()

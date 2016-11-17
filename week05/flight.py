@@ -4,13 +4,15 @@ class Flight:
                  from_dest, to_dest, terminal, declined):
         self.start_time = start_time
         self.end_time = end_time
-        self.passengers = passengers
+        self.passengers_number = passengers
+        self.passengers = []
+        self.reservations = []
         self.max_passengers = max_passengers
         self.from_dest = from_dest
         self.to_dest = to_dest
         self.terminal = terminal
         self.declined = declined
-        self.empty_seats = self.max_passengers - self.passengers
+        self.empty_seats = self.max_passengers - self.passengers_number
 
     def flight_empty_seats(self):
         return self.empty_seats
@@ -32,6 +34,12 @@ class Flight:
 
     def get_terminal_number(self):
         return self.terminal.number
+
+    def add_passengers(self, passenger):
+        self.passengers.append(passenger)
+
+    def add_reservations(self, reservation):
+        self.reservations.append(reservation)
 
     def flight_duration(self):
         start_hours = self.start_time.get_hours()

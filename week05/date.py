@@ -11,7 +11,7 @@ class Date:
 
     def __eq__(self, other):
         if self.day == other.day and self.month == other.month and \
-                self.year == other.year and self.hour == other.hour:
+                self.year == other.year:
 
             return True
 
