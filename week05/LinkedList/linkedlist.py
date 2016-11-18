@@ -2,21 +2,34 @@ from node import Node
 
 
 class LinkedList:
-    def __init__(self):
+    def __init__(self, head=None):
         self.__size = 0
-        self.head = Node
+        self.__head = head
+        self.__tail = None
 
     def add_element(self, data):
-        pass
+        new_node = Node(data, self.__head)
+
+        if self.size() < 1:
+            self.add_first(new_node)
+
+        self.__tail.set_next(new_node)
+        self.__tail = new_node
+        self.__size += 1
 
     def index(self, index):
-        pass
+        element = self.__head
+
+        for idx in range(index):
+            element = element.get_next()
+
+        return element
 
     def size(self):
         return self.__size
 
     def remove(self, index):
-        pass
+        current_node = self.__head
 
     def pprint(self):
         pass
@@ -31,7 +44,12 @@ class LinkedList:
         pass
 
     def add_first(self, data):
-        pass
+        new_node = Node(data, self.__head)
+
+        if self.__head:
+            self.__head.set_prev(new_node)
+        self.__head = self.__tail = new_node
+        self.__size += 1
 
     def add_list(self, list_: list):
         pass
@@ -47,3 +65,8 @@ class LinkedList:
 
     def reduce_to_unique(self):
         pass
+
+ll = LinkedList()
+ll.add_first(1)
+ll.add_element(2)
+ll.add_element(3)
