@@ -8,10 +8,13 @@ class LinkedList:
         self.__tail = None
 
     def add_element(self, data):
-        new_node = Node(data, self.__head)
+        new_node = Node(data)
 
-        if self.size() < 1:
-            self.add_first(new_node)
+        if not self.size():
+            self.__head = self.__tail = Node(data)
+            self.__size += 1
+
+            return self.__head
 
         self.__tail.set_next(new_node)
         self.__tail = new_node
@@ -28,20 +31,37 @@ class LinkedList:
     def size(self):
         return self.__size
 
-    def remove(self, index):
-        current_node = self.__head
+    def remove(self, idx):
+        if self.size() > 0:
+            if idx == 0:
+                self.__head = self.index(idx + 1)
+            else:
+                prev_node = self.index(idx - 1)
+                next_node = self.index(idx + 1)
+                prev_node.set_next(next_node)
 
-    def pprint(self):
-        pass
+            self.__size -= 1
 
     def to_list(self):
-        pass
+        list_ = []
+        element = self.__head
 
-    # add element and index N (Example: ll = [2 => 3 => 4]
-    # ll.ad_at_index(1, "New data")
-    # ll = [2 => "New data" =>  3 => 4]
-    def add_at_index(self, index, data):
-        pass
+        while element:
+            list_.append(element.get_data())
+            element = element.get_next()
+
+        return list_
+
+    def add_at_index(self, idx, data):
+        if self.size() == 0:
+            self.add_first(data)
+        else:
+            new_node = Node(data)
+            prev_node = self.index(idx - 1)
+            new_node.set_next(prev_node.get_next())
+            prev_node.set_next(new_node)
+
+        self.__size += 1
 
     def add_first(self, data):
         new_node = Node(data, self.__head)
@@ -51,22 +71,34 @@ class LinkedList:
         self.__head = self.__tail = new_node
         self.__size += 1
 
-    def add_list(self, list_: list):
-        pass
+    def add_list(self, list_):
+        for el in list_:
+            self.add_element(el)
 
     def add_linked_list(self, ll):
-        pass
+        ll = ll.to_list()
+        self.add_list(ll)
 
     def ll_from_to(self, start_index, end_index):
-        pass
+        ll = LinkedList()
+        l = []
+
+        for idx in range(start_index, end_index + 1):
+            l.append(self.index(idx).get_data())
+
+        ll.add_list(l)
+
+        return ll
 
     def pop(self):
-        pass
+        el = self.__tail
+        self.remove(self.size() - 1)
+
+        return el.get_data()
 
     def reduce_to_unique(self):
-        pass
+        ll = LinkedList()
+        list_ = list(set(self.to_list()))
+        ll.add_list(list_)
 
-ll = LinkedList()
-ll.add_first(1)
-ll.add_element(2)
-ll.add_element(3)
+        return ll
