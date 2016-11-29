@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import timedelta
 
 
 class Song:
@@ -8,36 +8,47 @@ class Song:
         self.artist = artist
         self.album = album
         self._length = length
-        self.length_as_obj = self.parse_length(length)
 
     def __str__(self):
         return "{} - {} from {} - {}".format(self.artist, self.title,
                                              self.album, self._length)
 
     def __eq__(self, other):
-        return str(self) == str(other)
+        return self.__str__() == str(other)
 
     def __hash__(self):
         return hash(self.__str__())
 
     @staticmethod
-    def parse_length(time):
-        if len(time.split(':')) == 3:
-            # try with %-M in order to remove the leading zero
-            t = datetime.strptime(time, '%H:%M:%S')
-            return timedelta(hours=t.hour, minutes=t.minute, seconds=t.second)
+    def get_seconds(time):
+        t = [int(x) for x in time.split(':')]
+
+        if len(t) == 3:
+            s = timedelta(hours=t[0], minutes=t[1], seconds=t[2])
+            return s.total_seconds()
         else:
-            t = datetime.strptime(time, '%M:%S')
-            return timedelta(minutes=t.minute, seconds=t.second)
+            s = timedelta(minutes=t[0], seconds=t[1])
+            return s.total_seconds()
 
-    # length(seconds=True) - should return the length in seconds or just the seconds.
-    def length(self, **kwargs):
-        for key, value in kwargs.items():
-            if key is 'seconds' and value is True:
-                return self.length_as_obj
-            if key is 'hours' and value is True:
-                return type(self.length_as_obj)
-                # TODO
+    def length(self, seconds=False, minutes=False, hours=False):
+        time = self._length.split(':')
 
-s = Song(title="Odin", artist="Manowar", album="The Sons of Odin", length="3:44")
-print(s.length(hours=True))
+        if seconds:
+            s = self.get_seconds(self._length)
+            return s
+
+        elif minutes:
+            if len(time) == 3:
+                m = (int(time[0]) * 60) + int(time[1])
+            else:
+                m = int(time[0])
+
+            return m
+
+        elif hours:
+            if len(time) == 3:
+                return int(time[0])
+            else:
+                raise ValueError
+
+        return self._length
