@@ -28,12 +28,20 @@ class Playlist:
         return str(timedelta(seconds=total_len))
 
     def artists(self):
-        pass
+        artists = {}
+        for song in self.__songs:
+            if song.artist not in artists:
+                artists[song.artist] = 1
+            else:
+                artists[song.artist] += 1
+
+        return artists
 
     def next_song(self):
         pass
 
     def pprint_playlist():
+        # import terminaltables
         pass
 
     def save(self):
