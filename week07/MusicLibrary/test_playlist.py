@@ -8,7 +8,7 @@ class TestPlaylist(unittest.TestCase):
 
     def setUp(self):
         self.pl = Playlist(name="Rock")
-        self.pl1 = Playlist(name="Rock", repeat=False, shuffle=True)
+        self.pl1 = Playlist(name="Rock", repeat=True, shuffle=False)
 
         self.s = Song(title="Odin", artist="Manowar", album="The Sons of Odin",
                       length="3:10")
@@ -54,14 +54,11 @@ class TestPlaylist(unittest.TestCase):
         self.assertEqual({'Manowar': 3, 'Pantera': 1}, self.pl.artists())
 
     def test_next_song(self):
-        self.pl1.add_songs([self.s, self.s1])
-        self.pl1.next_song()
-        self.assertEqual(self.pl1.next_song().title, self.s.title)
-        # self.assertEqual(self.pl1.next_song(), self.s1)
-        # self.assertEqual(self.pl1.next_song(), self.s2)
-        # self.assertEqual(self.pl1.next_song(), self.s3)
-        # self.assertEqual(self.pl1.next_song(), self.s)
-
+        self.pl1.add_songs([self.s1, self.s2, self.s3])
+        self.assertEqual(self.pl1.next_song(), self.s1)
+        self.assertEqual(self.pl1.next_song(), self.s2)
+        self.assertEqual(self.pl1.next_song(), self.s3)
+        self.assertEqual(self.pl1.next_song(), self.s1)
 
 if __name__ == '__main__':
     unittest.main()
