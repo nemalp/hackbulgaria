@@ -1,5 +1,6 @@
 import random
 from datetime import timedelta
+from terminaltables import AsciiTable
 
 
 class Playlist:
@@ -10,7 +11,7 @@ class Playlist:
         self.shuffle = shuffle
         self.song_idx = 0
         self.__songs = []
-        self.__shuffled_songs = self.__songs
+        self.__played_songs = []
 
     def get_songs(self):
         return self.__songs
@@ -45,30 +46,32 @@ class Playlist:
 
     def next_song(self):
         if self.repeat:
+            if len(self.__songs) == self.song_idx:
+                self.song_idx = 0
             song = self.__songs[self.song_idx]
 
         if self.shuffle:
-            if self.__songs != self.__shuffled_songs:
-                random.shuffle(self.__shuffled_songs)
+            song = random.choice(self.__songs)
 
-            song = self.__shuffled_songs[self.song_idx]
+            while song in self.__played_songs:
+                song = random.choice(self.__songs)
 
-            for s in self.__shuffled_songs:
-                print(s.title)
+            self.__played_songs.append(song)
+
+            if len(self.__songs) == len(self.__played_songs):
+                self.__played_songs = []
 
         self.song_idx += 1
 
-        if self.song_idx == len(self.__songs) - 1 and self.shuffle is False:
-            self.song_idx = 0
-        elif self.song_idx == len(self.__shuffled_songs) - 1 and self.shuffle:
-            self.__shuffled_songs = random.shuffle(self.__songs)
-            self.song_idx = 0
-
         return song
 
-    def pprint_playlist():
-        # import terminaltables
-        pass
+    def pprint_playlist(self):
+        data = [[song.artist, song.title, song._length]
+                for song in self.__songs]
+        data.insert(0, ['Artist', 'Song', 'Length'])
+        table = AsciiTable(data)
+        table.title = 'Playlist'
+        print(table.table)
 
     def save(self):
         pass
