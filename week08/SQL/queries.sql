@@ -1,10 +1,10 @@
 SELECT address
 FROM studio
-WHERE name=='MGM';
+WHERE name='MGM';
 
 SELECT birthdate
 FROM moviestar
-WHERE name=='Sandra Bullock';
+WHERE name='Sandra Bullock';
 
 SELECT name
 FROM movieexec
@@ -12,7 +12,7 @@ WHERE networth>10000000;
 
 SELECT name
 FROM moviestar
-WHERE gender=='M' OR address=='Perfect Rd';
+WHERE gender='M' OR address='Perfect Rd';
 
 INSERT INTO moviestar(name, address, gender,  birthdate) VALUES ('Zahari Baharov', 'Unknown', 'M', '1980-07-09');
 
