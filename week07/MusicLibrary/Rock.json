@@ -1,0 +1,23 @@
+{
+ "songs": [
+  {
+   "artist": "Manowar",
+   "album": "Unknown",
+   "length": "5:10",
+   "title": "Odin"
+  },
+  {
+   "artist": "Manowar",
+   "album": "New",
+   "length": "7:10",
+   "title": "The crown and the ring"
+  },
+  {
+   "artist": "Pantera",
+   "album": "Cowboys from hell",
+   "length": "5:10",
+   "title": "Cowboys from hell"
+  }
+ ],
+ "name": "Rock"
+}
