@@ -1,6 +1,8 @@
+import json
 import random
 from datetime import timedelta
 from terminaltables import AsciiTable
+from song import Song
 
 
 class Playlist:
@@ -74,7 +76,33 @@ class Playlist:
         print(table.table)
 
     def save(self):
-        pass
+        json_data = {}
+        json_data['name'] = self.name
+        json_data['songs'] = []
 
-    def load(self, path):
-        pass
+        playlist = [[song.title, song.artist, song.album, song._length]
+                    for song in self.__songs]
+
+        for song in playlist:
+            json_data['songs'].append({'title': song[0], 'artist': song[1],
+                                      'album': song[2], 'length': song[3]})
+
+        with open('' + self.name + '.json', 'w') as output:
+            json.dump(json_data, output, indent=True)
+
+    @staticmethod
+    def load(filename):
+        songs = []
+
+        with open(filename, 'r') as f:
+            content = f.read()
+            data = json.loads(content)
+            playlist = Playlist(data['name'], repeat=True)
+
+            for song in data['songs']:
+                songs.append(Song(song['title'], song['artist'],
+                                  song['album'], song['length']))
+
+            playlist.add_songs(songs)
+
+        return playlist
