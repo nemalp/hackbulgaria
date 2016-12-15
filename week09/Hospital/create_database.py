@@ -2,7 +2,6 @@ import sqlite3
 
 DB_NAME = "py_hospital.db"
 db = sqlite3.connect(DB_NAME)
-db.row_factory = sqlite3.Row
 c = db.cursor()
 
 drop_db = """DROP TABLE IF EXISTS PATIENTS;
