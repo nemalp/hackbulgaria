@@ -9,6 +9,11 @@ class Hospital:
         self.db.row_factory = sqlite3.Row
         self.c = self.db.cursor()
 
+    def get_patient(self, name):
+        patient = self.c.execute("SELECT patients.id FROM PATIENTS WHERE patients.firstname = ?", [name])
+        self.db.commit()
+        return patient
+
     def list_patients(self):
         all_patients = self.c.execute("SELECT id, firstname, lastname, age FROM PATIENTS")
         data = [['id', 'firstname', 'lastname', 'age']]
@@ -58,11 +63,30 @@ class Hospital:
             print('Oops! Something went wrong')
 
     def add_hospital_stay_of_a_patient(self):
-        insert_hospital_stay = "INSERT INTO HOSPITAL_STAY (ROOM, STARTDATE, ENDDATE, INJURY, PATIENT)"
+        insert_hospital_stay = """INSERT INTO HOSPITAL_STAY (ROOM, STARTDATE, ENDDATE, INJURY, PATIENT)
+                                    VALUES (?, ?, ?, ?, ?)"""
+
+        room = input('room: ')
+        start_date = input('start date: ')
+        end_date = input('end date: ')
+        injury = input('injury: ')
+        patient_name = input('patient name: ')
+
+        try:
+            patient_id = self.c.execute(self.get_patient(patient_name), [patient_name])
+            patient_id = [id['id'] for id in patient_id][0]
+            self.c.execute(insert_hospital_stay, [room, start_date, end_date, injury, patient_id])
+            self.db.commit()
+        except Exception:
+            print('Oops! Something went wrong')
+
+    def update_patient(self):
+        update_patient_info = """"""
+
 
 def main():
     h = Hospital('py_hospital.db')
-    h.add_new_doctor()
+    h.add_hospital_stay_of_a_patient()
 
 if __name__ == '__main__':
     main()
