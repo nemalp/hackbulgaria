@@ -12,6 +12,7 @@ def deposit(name, money):
     return True
 
 
+# @log('log2.txt')
 @encrypt(2)
 def get_low():
     return "Get get get low"
