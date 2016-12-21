@@ -12,7 +12,7 @@ def deposit(name, money):
     return True
 
 
-# @log('log2.txt')
+@log('log2.txt')
 @encrypt(2)
 def get_low():
     return "Get get get low"
@@ -25,6 +25,6 @@ def something_heavy():
 
 
 print(get_low())
-print(something_heavy())
 print(deposit("RadoRado", 10))
 print(say_hello("Hacker"))
+print(something_heavy())

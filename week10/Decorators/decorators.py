@@ -22,7 +22,7 @@ def accepts(*args):
 
 def encrypt(key):
     def encryptor(func):
-        def decorator():
+        def decorator(*args, **kwargs):
             L2I = dict(zip("abcdefghijklmnopqrstuvwxyz", range(26)))
             I2L = dict(zip(range(26), "abcdefghijklmnopqrstuvwxyz"))
             plaintext = func()
@@ -35,9 +35,9 @@ def encrypt(key):
 
                     else:
                         ciphertext += I2L[(L2I[ch] + key) % 26]
-
-                else: ciphertext += ch
-            return ciphertext
+                else:
+                    ciphertext += ch
+                    return ciphertext
         return decorator
     return encryptor
 
@@ -46,14 +46,13 @@ def performance(file_name):
     def timer(func):
         logging.basicConfig(filename=file_name, level=logging.INFO)
 
-        def decorator():
+        def decorator(*args, **kwargs):
             start_time = time.time()
             result = func()
             runtime = time.time() - start_time
 
             logging.info('{} was called and took {:.2f} seconds to complete'
                          .format(func.__name__, runtime))
-
             return result
         return decorator
     return timer
@@ -61,13 +60,11 @@ def performance(file_name):
 
 def log(file_name):
     def logger(func):
-        logging.basicConfig(filename=file_name, level=logging.INFO)
-
-        @wraps
-        def decorator():
-            logging.info('{} was called at {}'
-                         .format(func.__name__, datetime.now()))
-            return func()
-
+        @wraps(func)
+        def decorator(*args, **kwargs):
+            with open(file_name, 'a') as f:
+                f.write('{} was called at {}\n'
+                        .format(func.__name__, datetime.now()))
+            return func(*args, **kwargs)
         return decorator
     return logger

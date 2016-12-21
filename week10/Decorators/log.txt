@@ -1,8 +1,3 @@
-INFO:root:something_heavy was called and took 2.0020766258239746 seconds to complete
-INFO:root:something_heavy was called and took 2.002040147781372 seconds to complete
-INFO:root:something_heavy was called and took 2.0020885467529297 seconds to complete
-INFO:root:something_heavy was called and took 2.002080679 seconds to complete
-INFO:root:something_heavy was called and took 2.002085209 seconds to complete
 INFO:root:something_heavy was called and took 2.00 seconds to complete
 INFO:root:something_heavy was called and took 2.00 seconds to complete
 INFO:root:something_heavy was called and took 2.00 seconds to complete
@@ -11,8 +6,6 @@ INFO:root:something_heavy was called and took 2.00 seconds to complete
 INFO:root:something_heavy was called and took 2.00 seconds to complete
 INFO:root:something_heavy was called and took 2.00 seconds to complete
 INFO:root:something_heavy was called and took 2.00 seconds to complete
-INFO:root:decorator was called at 2016-12-21 16:06:35.788449
 INFO:root:something_heavy was called and took 2.00 seconds to complete
-INFO:root:decorator was called at 2016-12-21 16:09:27.423095
 INFO:root:something_heavy was called and took 2.00 seconds to complete
 INFO:root:something_heavy was called and took 2.00 seconds to complete
