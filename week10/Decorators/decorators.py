@@ -1,5 +1,7 @@
 import time
 import logging
+from datetime import datetime
+from functools import wraps
 
 
 def accepts(*args):
@@ -17,11 +19,12 @@ def accepts(*args):
         return decorator
     return accepter
 
+
 def encrypt(key):
     def encryptor(func):
         def decorator():
-            L2I = dict(zip("abcdefghijklmnopqrstuvwxyz",range(26)))
-            I2L = dict(zip(range(26),"abcdefghijklmnopqrstuvwxyz"))
+            L2I = dict(zip("abcdefghijklmnopqrstuvwxyz", range(26)))
+            I2L = dict(zip(range(26), "abcdefghijklmnopqrstuvwxyz"))
             plaintext = func()
             ciphertext = ""
 
@@ -51,9 +54,20 @@ def performance(file_name):
             logging.info('{} was called and took {:.2f} seconds to complete'
                          .format(func.__name__, runtime))
 
-
             return result
         return decorator
     return timer
 
 
+def log(file_name):
+    def logger(func):
+        logging.basicConfig(filename=file_name, level=logging.INFO)
+
+        @wraps
+        def decorator():
+            logging.info('{} was called at {}'
+                         .format(func.__name__, datetime.now()))
+            return func()
+
+        return decorator
+    return logger
