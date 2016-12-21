@@ -1,0 +1,2 @@
+INFO:root:decorator was called at 2016-12-21 16:10:52.153475
+INFO:root:something_heavy was called and took 2.00 seconds to complete
