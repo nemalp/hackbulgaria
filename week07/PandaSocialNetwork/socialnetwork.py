@@ -35,11 +35,11 @@ class PandaSocialNetwork:
 
         return check1 and check2
 
-    def add_friends(self, panda1, panda2):
-        pass
-
     def friends_of_panda(self, panda):
-        pass
+        if panda not in self.graph.keys():
+            return False
+
+        return self.graph[panda]
 
     def connection_level(self, start: Panda, target: Panda):
         q = deque()
@@ -70,21 +70,7 @@ class PandaSocialNetwork:
         return -1
 
     def are_connected(self, panda1, panda2):
-        pass
+        return self.connection_level(panda1, panda2) != -1
 
     def how_many_gender_in_network(self, level, panda, gender):
         pass
-
-network = PandaSocialNetwork()
-ivo = Panda("Ivo", "ivo@pandamail.com", "male")
-rado = Panda("Rado", "rado@pandamail.com", "male")
-tony = Panda("Tony", "tony@pandamail.com", "female")
-
-for panda in [ivo, rado, tony]:
-    network.add_panda(panda)
-
-network.make_friends(ivo, rado)
-network.make_friends(rado, tony)
-
-print(network.connection_level(ivo, rado) == 1)
-print(network.connection_level(ivo, tony) == 2)
