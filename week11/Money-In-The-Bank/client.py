@@ -1,6 +1,6 @@
 class Client():
     def __init__(self, id, username, balance, message):
-        self.__init____username = username
+        self.__username = username
         self.__balance = balance
         self.__id = id
         self.__message = message
