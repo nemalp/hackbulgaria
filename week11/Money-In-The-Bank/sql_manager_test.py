@@ -19,12 +19,12 @@ class SqlManagerTests(unittest.TestCase):
         os.remove("bank.db")
 
     def test_register(self):
-        sql_manager.register('Dinko', '123123')
+        sql_manager.register('Dinko', 'StrongPass1')
 
         sql_manager.cursor.execute('''SELECT Count(*)
                                    FROM CLIENT
                                    WHERE USERNAME = ? AND password = ?''',
-                                   ['Dinko', '123123'])
+                                   ['Dinko', 'StrongPass1'])
         users_count = sql_manager.cursor.fetchone()
 
         self.assertEqual(users_count[0], 1)
@@ -54,6 +54,7 @@ class SqlManagerTests(unittest.TestCase):
 
         logged_user_new_password = sql_manager.login('Tester', new_password)
         self.assertEqual(logged_user_new_password.get_username(), 'Tester')
+
 
 if __name__ == '__main__':
     unittest.main()
