@@ -1,4 +1,5 @@
 import sqlite3
+import hashlib
 from client import Client
 from settings.general_settings import (DB_NAME)
 from queries.queries import (CREATE_CLIENT_TABLE, UPDATE_CLIENT_MESSAGE,
@@ -27,6 +28,7 @@ def change_pass(new_pass, logged_user):
 
 
 def register(username, password):
+    # hashed_password = hash_password(password)
     cursor.execute(REGISTER_CLIENT, [username, password])
     conn.commit()
 
@@ -39,3 +41,8 @@ def login(username, password):
         return Client(user[0], user[1], user[2], user[3])
     else:
         return False
+
+
+def hash_password(password):
+    hash_obj = hashlib.sha256(password.encode())
+    return hash_obj.hexdigest()
