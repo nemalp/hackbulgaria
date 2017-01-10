@@ -4,7 +4,8 @@ CREATE_CLIENT_TABLE = '''
                 USERNAME TEXT,
                 PASSWORD TEXT,
                 BALANCE REAL DEFAULT 0,
-                MESSAGE TEXT)
+                MESSAGE TEXT,
+                EMAIL TEXT)
 '''
 
 UPDATE_CLIENT_MESSAGE = '''
