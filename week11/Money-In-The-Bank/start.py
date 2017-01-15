@@ -1,34 +1,61 @@
 import sql_manager
 import getpass
-import validator
+from time import time, ctime, strptime
+from helpers.validator import validate_password
 
 
 def main_menu():
-    print("Welcome to our bank service. You are not logged in. \nPlease register or login")
+    print("Welcome to our bank service. You are not logged in. \n" +
+          "Please register or login")
 
     while True:
-        command = input("$$$>")
+        command = input(">>> ")
 
         if command == 'register':
             username = input("Enter your username: ")
             password = getpass.getpass("Enter your password: ")
 
-            if validator.validate_password(username, password):
-                sql_manager.register(username, password)
-                print("Registration Successfull")
-            else:
+            while not validate_password(username, password):
                 print('The password does not meet the required conditions')
+                password = getpass.getpass("Enter your password: ")
+
+            sql_manager.register(username, password)
+            print("Registration Successfull")
 
         elif command == 'login':
+            stop_login_loop = False
+            invalid_login_attempts = 0
             username = input("Enter your username: ")
-            password = getpass.getpass("Enter your password: ")
+            banned_client = sql_manager.is_banned(username)
 
-            logged_user = sql_manager.login(username, password)
+            if banned_client:
+                ban_time = strptime(str(ctime(banned_client[2])))
+                current_time = strptime(str(ctime()))
 
-            if logged_user:
-                logged_menu(logged_user)
+                if ban_time > current_time:
+                    print('{} is banned until {}'
+                          .format(username, ctime(banned_client[2])))
+                else:
+                    sql_manager.remove_ban(username)
+                    print('{} was recently banned.'.format(username) +
+                          ' Please use the login command again')
             else:
-                print("Login failed")
+                while stop_login_loop is False:
+                    password = getpass.getpass("Enter your password: ")
+                    logged_user = sql_manager.login(username, password)
+
+                    if logged_user:
+                        logged_menu(logged_user)
+                        stop_login_loop = True
+                    else:
+                        if invalid_login_attempts == 5:
+                            sql_manager.ban_client(username)
+                            stop_login_loop = True
+                            print('Too many login attempts. {} is banned for'
+                                  .format(username) + ' 5 minutes')
+                        else:
+                            print("Login failed")
+                            invalid_login_attempts += 1
 
         elif command == 'help':
             print("login - for logging in!")
@@ -53,7 +80,13 @@ def logged_menu(logged_user):
 
         elif command == 'changepass':
             new_pass = getpass.getpass("Enter your new password: ")
+
+            while not validate_password(logged_user.get_username(), new_pass):
+                print('The password does not meet the required conditions')
+                new_pass = getpass.getpass("Enter your password: ")
+
             sql_manager.change_pass(new_pass, logged_user)
+            print('Congrats! You changed your password successfully.')
 
         elif command == 'change-message':
             new_message = input("Enter your new message: ")
@@ -71,6 +104,7 @@ def logged_menu(logged_user):
 
 def main():
     sql_manager.create_clients_table()
+    sql_manager.create_banned_clients_table()
     main_menu()
 
 if __name__ == '__main__':
