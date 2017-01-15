@@ -1,10 +1,12 @@
 import sqlite3
-import hashlib
 from client import Client
 from settings.general_settings import (DB_NAME)
-from queries.queries import (CREATE_CLIENT_TABLE, UPDATE_CLIENT_MESSAGE,
-                             UPDATE_CLIENT_PASSWORD, REGISTER_CLIENT,
-                             SELECT_CLIENT)
+from time import time
+# from helpers.hash_password import hash_password
+from queries.queries import (CREATE_CLIENT_TABLE, CREATE_BANNED_CLIENT_TABLE,
+                             UPDATE_CLIENT_MESSAGE, UPDATE_CLIENT_PASSWORD,
+                             REGISTER_CLIENT, SELECT_CLIENT, BAN_CLIENT,
+                             CHECK_FOR_BAN, REMOVE_BAN)
 
 
 conn = sqlite3.connect(DB_NAME)
@@ -13,6 +15,11 @@ cursor = conn.cursor()
 
 def create_clients_table():
     cursor.execute(CREATE_CLIENT_TABLE)
+    conn.commit()
+
+
+def create_banned_clients_table():
+    cursor.execute(CREATE_BANNED_CLIENT_TABLE)
     conn.commit()
 
 
@@ -37,12 +44,25 @@ def login(username, password):
     cursor.execute(SELECT_CLIENT, [username, password])
     user = cursor.fetchone()
 
-    if(user):
+    if user:
         return Client(user[0], user[1], user[2], user[3])
     else:
         return False
 
 
-def hash_password(password):
-    hash_obj = hashlib.sha256(password.encode())
-    return hash_obj.hexdigest()
+def ban_client(username):
+    ban_time = time() + 300
+    cursor.execute(BAN_CLIENT, [username, ban_time])
+    conn.commit()
+
+
+def remove_ban(username):
+    cursor.execute(REMOVE_BAN, [username])
+    conn.commit()
+
+
+def is_banned(username):
+    cursor.execute(CHECK_FOR_BAN, [username])
+    user = cursor.fetchone()
+
+    return user
