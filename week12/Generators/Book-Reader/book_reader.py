@@ -15,8 +15,7 @@ def book_reader():
                     result += line
                     line = f.readline().decode('utf-8')
 
-                    while str(line).startswith('#') is False and \
-                            str(line) != '':
+                    while line.startswith('#') is False and line != '':
                         result += line
                         line = f.readline().decode('utf-8')
 
