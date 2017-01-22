@@ -3,13 +3,16 @@ import unittest
 import os
 sys.path.append("..")
 import sql_manager
+from queries.queries import COUNT_USER, GET_CLIENT_PASS
 
 
 class SqlManagerTests(unittest.TestCase):
 
     def setUp(self):
         sql_manager.create_clients_table()
-        sql_manager.register('Tester', '123')
+        sql_manager.register('Tester', '123', 'test@test.com')
+        sql_manager.cursor.execute(GET_CLIENT_PASS, ['Tester'])
+        self.hashed_pass = sql_manager.cursor.fetchone()[0]
 
     def tearDown(self):
         sql_manager.cursor.execute('DROP TABLE CLIENT')
@@ -19,14 +22,12 @@ class SqlManagerTests(unittest.TestCase):
         os.remove("bank.db")
 
     def test_register(self):
-        sql_manager.register('Dinko', 'StrongPass1')
+        sql_manager.register('Dinko', 'StrongPass1!', 'dinko@borderr.com')
+        sql_manager.cursor.execute(GET_CLIENT_PASS, ['Dinko'])
+        hashed_pass = sql_manager.cursor.fetchone()[0]
 
-        sql_manager.cursor.execute('''SELECT Count(*)
-                                   FROM CLIENT
-                                   WHERE USERNAME = ?''',
-                                   ['Dinko'])
+        sql_manager.cursor.execute(COUNT_USER, ['Dinko', hashed_pass])
         users_count = sql_manager.cursor.fetchone()
-
         self.assertEqual(users_count[0], 1)
 
     def test_login(self):
@@ -54,7 +55,6 @@ class SqlManagerTests(unittest.TestCase):
 
         logged_user_new_password = sql_manager.login('Tester', new_password)
         self.assertEqual(logged_user_new_password.get_username(), 'Tester')
-
 
 if __name__ == '__main__':
     unittest.main()
