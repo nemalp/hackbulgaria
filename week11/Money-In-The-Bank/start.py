@@ -2,6 +2,7 @@ import sql_manager
 import getpass
 from time import time, ctime, strptime
 from helpers.validator import validate_password
+from queries.queries import SELECT_CLIENT
 
 
 def main_menu():
@@ -14,12 +15,13 @@ def main_menu():
         if command == 'register':
             username = input("Enter your username: ")
             password = getpass.getpass("Enter your password: ")
+            email = input("Enter your email: ")
 
             while not validate_password(username, password):
                 print('The password does not meet the required conditions')
                 password = getpass.getpass("Enter your password: ")
 
-            sql_manager.register(username, password)
+            sql_manager.register(username, password, email)
             print("Registration Successfull")
 
         elif command == 'login':
@@ -56,6 +58,29 @@ def main_menu():
                         else:
                             print("Login failed")
                             invalid_login_attempts += 1
+
+        elif command.startswith('send-reset-password'):
+            text = command.split(' ')
+            if len(text) == 2:
+                username = text[1]
+                sql_manager.cursor.execute(SELECT_CLIENT, [username])
+                user_email = sql_manager.cursor.fetchone()[4]
+
+                if user_email:
+                    print('In order to use this option you' +
+                          ' need to login with your gmail acc')
+                    from_ = input('Email: ')
+                    password = getpass.getpass('Password:')
+
+                    sql_manager.send_reset_password_email(from_,
+                                                          user_email,
+                                                          password)
+                else:
+                    print('Uups! Something went wrong. It seems' +
+                          'we cannot find your email in our system')
+
+            else:
+                print('<username> is required for this command')
 
         elif command == 'help':
             print("login - for logging in!")
