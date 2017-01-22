@@ -1,12 +1,14 @@
 import sqlite3
+import hashlib
+import smtplib
 from client import Client
 from settings.general_settings import (DB_NAME)
 from time import time
-# from helpers.hash_password import hash_password
+from helpers.hash_password import hash_password, check_password
 from queries.queries import (CREATE_CLIENT_TABLE, CREATE_BANNED_CLIENT_TABLE,
                              UPDATE_CLIENT_MESSAGE, UPDATE_CLIENT_PASSWORD,
                              REGISTER_CLIENT, SELECT_CLIENT, BAN_CLIENT,
-                             CHECK_FOR_BAN, REMOVE_BAN)
+                             CHECK_FOR_BAN, REMOVE_BAN, GET_CLIENT_PASS)
 
 
 conn = sqlite3.connect(DB_NAME)
@@ -30,24 +32,30 @@ def change_message(new_message, logged_user):
 
 
 def change_pass(new_pass, logged_user):
-    cursor.execute(UPDATE_CLIENT_PASSWORD, [new_pass, logged_user.get_id()])
+    cursor.execute(UPDATE_CLIENT_PASSWORD, [hash_password(new_pass),
+                                            logged_user.get_id()])
     conn.commit()
 
 
-def register(username, password):
-    # hashed_password = hash_password(password)
-    cursor.execute(REGISTER_CLIENT, [username, password])
+def register(username, password, email):
+    hashed_password = hash_password(password)
+    cursor.execute(REGISTER_CLIENT, [username, hashed_password, email])
     conn.commit()
 
 
 def login(username, password):
-    cursor.execute(SELECT_CLIENT, [username, password])
-    user = cursor.fetchone()
+    cursor.execute(GET_CLIENT_PASS, [username])
+    hashed_pass = cursor.fetchone()
 
-    if user:
-        return Client(user[0], user[1], user[2], user[3])
-    else:
-        return False
+    if hashed_pass:
+        if check_password(hashed_pass[0], password):
+            cursor.execute(SELECT_CLIENT, [username])
+            user = cursor.fetchone()
+
+            if user:
+                return Client(user[0], user[1], user[2], user[3], user[4])
+
+    return False
 
 
 def ban_client(username):
@@ -66,3 +74,17 @@ def is_banned(username):
     user = cursor.fetchone()
 
     return user
+
+
+def send_reset_password_email(from_, to, password):
+    try:
+        content = 'Test email'
+        server = smtplib.SMTP('smtp.gmail.com', 587)
+        server.ehlo()
+        server.starttls()
+        server.login(from_, password)
+        server.sendmail(from_, to, content)
+        server.close()
+    except:
+        print('This functionality is still in beta.' +
+              'It is possible to experience some outages')
