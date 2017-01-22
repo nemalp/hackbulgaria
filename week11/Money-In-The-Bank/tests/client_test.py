@@ -8,7 +8,7 @@ class ClientTests(unittest.TestCase):
 
     def setUp(self):
         self.test_client = Client(1, "Ivo", 200000.00,
-                                  "Bitcoin mining makes me rich")
+                                  "Bitcoin mining makes me rich", 'eee@test.bg')
 
     def test_client_id(self):
         self.assertEqual(self.test_client.get_id(), 1)
