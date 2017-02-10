@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+<form action="{% url 'create_course' %}" method="POST">
+    {% csrf_token %}
+    <div class="row">
+        <label for="name">Course name</label>
+        <input type="text" name="name">
+    </div>
+    <div class="row">
+        <label for="description">Description</label>
+        <input type="text" name="description">
+    </div>
+    <div class="row">
+        <label for="start_date">Start date</label>
+        <input type="text" name="start_date">
+    </div>
+    <div class="row">
+        <label for="end_date">End date</label>
+        <input type="text" name="end_date">
+    </div>
+    <div class="submit-btn">
+        <input type="submit" value="Create course">
+    </div>
+    {% if course %}
+    <p>Course <strong>{{name}}</strong> already exist!</p>
+    {% endif %}
+</form>
+{% endblock %}
