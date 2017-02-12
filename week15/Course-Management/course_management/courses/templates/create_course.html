@@ -1,28 +1,39 @@
 {% extends 'base.html' %}
+{% block title %}Create Course{% endblock %}
 {% block content %}
-<form action="{% url 'create_course' %}" method="POST">
-    {% csrf_token %}
-    <div class="row">
-        <label for="name">Course name</label>
-        <input type="text" name="name">
-    </div>
-    <div class="row">
-        <label for="description">Description</label>
-        <input type="text" name="description">
-    </div>
-    <div class="row">
-        <label for="start_date">Start date</label>
-        <input type="text" name="start_date">
-    </div>
-    <div class="row">
-        <label for="end_date">End date</label>
-        <input type="text" name="end_date">
-    </div>
-    <div class="submit-btn">
-        <input type="submit" value="Create course">
-    </div>
-    {% if course %}
-    <p>Course <strong>{{name}}</strong> already exist!</p>
-    {% endif %}
-</form>
+<div class="form-container">
+    <form action="" method="POST">
+        {% csrf_token %}
+        <div class="row">
+            <label for="name">Course name:</label>
+            <div>
+                <input type="text" name="name" value="{% block course_name %}{% endblock %}">
+            </div>
+        </div>
+        <div class="row">
+            <label for="description">Description:</label>
+            <div>
+                <input type="text" name="description" value="{% block description %}{% endblock %}">
+            </div>
+        </div>
+        <div class="row">
+            <label for="start_date">Start date:</label>
+            <div>
+                <input type="text" name="start_date" value="{% block start_date %}{% endblock %}">
+            </div>
+        </div>
+        <div class="row">
+            <label for="end_date">End date:</label>
+            <div>
+                <input type="text" name="end_date" value="{% block end_date %}{% endblock %}">
+            </div>
+        </div>
+        <div class="submit-btn">
+            <input type="submit" value="{% block submit %}Create course{% endblock %}">
+        </div>
+    </form>
+</div>
+{% if course %}
+<p class="duplicate-course">Course <strong>{{name}}</strong> already exists!</p>
+{% endif %}
 {% endblock %}

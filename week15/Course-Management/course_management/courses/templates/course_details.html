@@ -1,1 +1,51 @@
 {% extends 'base.html' %}
+{% block title %}Course details{% endblock %}
+{% block content %}
+<table>
+    <thead>
+        <tr>
+            <th>Course name</th>
+            <th>Description</th>
+            <th>Start date</th>
+            <th>End date</th>
+            <th>Duration</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{course.name}}</td>
+            <td>{{course.description}}</td>
+            <td>{{course.start_date}}</td>
+            <td>{{course.end_date}}</td>
+            <td>{{course.start_date|timesince:course.end_date}}</td>
+        </tr>
+    </tbody>
+</table>
+{% if lectures %}
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Lecture Name</th>
+            <th>Week</th>
+            <th>Course</th>
+            <th>URL</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for lecture in lectures %}
+        <tr>
+            <td>{{lecture.id}}</td>
+            <td>{{lecture.name}}</td>
+            <td>{{lecture.week}}</td>
+            <td>{{lecture.course.name}}</td>
+            <td><a href="{{lecture.url}}">{{lecture.url}}</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+{% if course %}
+<p class="no-lectures">No lectures for this course yet</p>
+{% endif %}
+{% endblock %}

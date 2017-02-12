@@ -1,0 +1,6 @@
+{% extends 'create_course.html' %}
+{% block submit %}Edit course{%endblock%}
+{% block course_name %}{{course.name}}{%endblock%}
+{% block description %}{{course.description}}{%endblock%}
+{% block start_date %}{{course.start_date|date:"Y-m-d"}}{%endblock%}
+{% block end_date %}{{course.end_date|date:"Y-m-d"}}{%endblock%}
