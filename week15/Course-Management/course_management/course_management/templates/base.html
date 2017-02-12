@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" href="/static/course_management/style.css">
     <title>{% block title %}Course Management System{% endblock %}</title>
 </head>
 <body>
@@ -13,17 +14,17 @@
                         <th>Description</th>
                         <th>Start Date</th>
                         <th>End Date</th>
-                        <th>Approximate Duration</th>
+                        <th>Duration</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for course in courses %}
                     <tr>
-                        <td>{{course.name}}</td>
+                        <td><a href="/course/{{course.name}}">{{course.name}}</a></td>
                         <td>{{course.description}}</td>
                         <td>{{course.start_date|date:"d.m.Y"}}</td>
                         <td>{{course.end_date|date:"d.m.Y"}}</td>
-                        <td>N/A</td>
+                        <td>{{course.start_date|timesince:course.end_date}}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
