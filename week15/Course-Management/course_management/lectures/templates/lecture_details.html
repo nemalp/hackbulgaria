@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Lecture Name</th>
+            <th>Week</th>
+            <th>Course</th>
+            <th>URL</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{lecture.id}}</td>
+            <td>{{lecture.name}}</td>
+            <td>{{lecture.week}}</td>
+            <td>{{lecture.course.name}}</td>
+            <td>{{lecture.url}}</td>
+        </tr>
+    </tbody>
+</table>
+{% endblock %}

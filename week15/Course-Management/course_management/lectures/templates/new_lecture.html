@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="form-container">
+    <form action="" method="POST">
+        {% csrf_token %}
+        <div class="row">
+            <label for="name">Lecture name:</label>
+            <div>
+                <input type="text" name="name" value="{% block lecture_name %}{%endblock%}">
+            </div>
+        </div>
+        <div class="row">
+            <label for="week">Week:</label>
+            <div>
+                <input type="number" name="week" value="{% block week %}{%endblock%}">
+            </div>
+        </div>
+        <div class="row">
+            <label for="course">Course:</label>
+            <select id="select_course" name="course_name">
+                {% for course in courses %}
+                <option value="{{course.name}}">{{course.name}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="row">
+            <label for="url">URL:</label>
+            <div>
+                <input type="text" name="url" value="{% block url %}{% endblock %}">
+            </div>
+        </div>
+        <div class="submit-btn">
+            <input type="submit" value="{% block submit %}Create lecture{%endblock%}">
+        </div>
+    </form>
+</div>
+{% endblock %}
