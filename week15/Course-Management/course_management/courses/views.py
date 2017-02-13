@@ -14,7 +14,7 @@ def create_course(request, *args, **kwargs):
         name = request.POST.get('name')
 
         if Course.objects.filter(name=name).exists():
-            course = True
+            course_ = True
             return render(request, 'create_course.html', locals())
 
         description = request.POST.get('description')
