@@ -16,10 +16,12 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 from courses import views
+from website import views as web_views
 
 urlpatterns = [
     url(r'^$', views.all_courses, name='all_courses'),
     url(r'^admin/', admin.site.urls),
     url(r'^course/', include('courses.urls')),
     url(r'^lecture/', include('lectures.urls')),
+    url(r'^register/', web_views.register, name='register'),
 ]
