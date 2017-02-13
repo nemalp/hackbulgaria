@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}Register{% endblock %}
+{% block content %}
+<div class="form-container">
+    <form action="" method="POST">
+        {% csrf_token %}
+        <div class="row">
+            <label for="name">Email:</label>
+            <div>
+                <input type="email" name="email">
+            </div>
+        </div>
+        <div class="row">
+            <label for="password">Password:</label>
+            <div>
+                <input type="password" name="password">
+            </div>
+        </div>
+        <div class="submit-btn">
+            <input type="submit" value="{% block login %}Login{% endblock %}">
+        </div>
+    </form>
+</div>
+{% endblock %}
