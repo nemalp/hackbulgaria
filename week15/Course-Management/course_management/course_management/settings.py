@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'course_management',
     'courses',
     'lectures',
+    'base_app',
+    'website',
 ]
 
 MIDDLEWARE = [
