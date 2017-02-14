@@ -24,4 +24,6 @@ urlpatterns = [
     url(r'^course/', include('courses.urls')),
     url(r'^lecture/', include('lectures.urls')),
     url(r'^register/', web_views.register, name='register'),
+    url(r'^login/', web_views.login, name='login'),
+    url(r'^profile/', web_views.profile, name='profile'),
 ]
