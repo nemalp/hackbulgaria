@@ -1,3 +1,6 @@
-{% extends 'register.html' %}
+{% extends 'auth/register.html' %}
 {% block title %}Login{% endblock %}
-{% block login %}Register{% endblock %}
+{% block register %}Login{% endblock %}
+{% block error %}
+{% if error_msg %}<p class=invalid-credentials>Invalid username or password!</p>{% endif %}
+{% endblock %}
