@@ -77,3 +77,10 @@ table tbody tr:nth-child(even) {
     border: 0;
     padding: 5px;
 }
+
+/* login & register*/
+.invalid-credentials {
+    width: 300px;
+    margin: 0 auto;
+    color: red;
+}
