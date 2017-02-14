@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.exceptions import ObjectDoesNotExist
 
 
 class User(models.Model):
@@ -10,6 +11,14 @@ class User(models.Model):
     @classmethod
     def exists(cls, email):
         return True if cls.objects.filter(email=email) else False
+
+    @classmethod
+    def login(cls, email, password):
+        try:
+            user = cls.objects.get(email=email)
+            return user
+        except ObjectDoesNotExist:
+            'No such user!'
 
 
 class Student(User):
